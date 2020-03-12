@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -38,11 +39,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ContactsAdapter.ContactsAdapterListener {
+
     private static final String TAG = MainActivity.class.getSimpleName();
     private RecyclerView recyclerView;
     private List<Contact> contactList;
     private ContactsAdapter mAdapter;
-    private SearchView searchView;
+
+    boolean doubleBackToExitPressedOnce = false;
 
     private EditText myEditText;
 
@@ -61,21 +64,12 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
-        // toolbar fancy stuff
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setTitle(R.string.toolbar_title);
-
         myEditText = findViewById(R.id.edit_text);
 
         recyclerView = findViewById(R.id.recycler_view);
         contactList = new ArrayList<>();
         mAdapter = new ContactsAdapter(this, contactList, this);
 
-        // white background notification bar
-        whiteNotificationBar(recyclerView);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -129,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
                             String kodepos = jsonObject.getString("kodepos");
                             String masaberlaku = jsonObject.getString("masaberlaku");
 
-                            //contactList.clear();
                             contactList.add(new Contact(nama, noizin, kodepos, masaberlaku));
                         }
                         recyclerView.setAdapter(mAdapter);
@@ -153,84 +146,24 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
 
 
 
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.action_search)
-                .getActionView();
-        searchView.setSearchableInfo(searchManager
-                .getSearchableInfo(getComponentName()));
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-
-
-        return true;
-
-    //=====================================================================================
-    //========  ini search filter dengan action bar, sewaktu2 mungkin butuh??  ===========
-    //=====================================================================================
-        // listening to search query text change
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // filter recycler view when query submitted
-                mAdapter.getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                // filter recycler view when text is changed
-                mAdapter.getFilter().filter(query);
-                return false;
-            }
-        });
-    //=====================================================================================
-    //========  ini search filter dengan action bar, sewaktu2 mungkin butuh??  ===========
-    //=====================================================================================
-    }
-
-*/
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
 
     @Override
     public void onBackPressed() {
-        // close search view on back button pressed
-        if (!searchView.isIconified()) {
-            searchView.setIconified(true);
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
             return;
         }
-        super.onBackPressed();
-    }
 
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
+        new Handler().postDelayed(new Runnable() {
 
-    private void whiteNotificationBar(View view) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int flags = view.getSystemUiVisibility();
-            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            view.setSystemUiVisibility(flags);
-            getWindow().setStatusBarColor(Color.WHITE);
-        }
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 
 
