@@ -6,40 +6,37 @@
     android:layout_height="match_parent"
     tools:context="com.kakaraka.poskominfo2.MainActivity"
     android:orientation="vertical"
+    android:background="@color/color3dark"
+
     >
 
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Aplikasi POS"
+        android:textSize="32sp"
+        android:fontFamily="sans-serif-black"
+        android:layout_marginTop="30dp"
+        />
 
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="300dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:hint="Cari Data..."
+        android:paddingLeft="15dp"
+        android:layout_gravity="center"
+        android:singleLine="true"
+        android:background="@drawable/round_search_bar"
+        />
 
     <!--
-
-        <EditText
-        android:id="@+id/edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Cari Data..."
-        />
-
-
-    <SearchView
-        android:id="@+id/searchdong"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/round_search_bar"
-        android:backgroundTint="@color/color3dark"
-        android:queryHint="CARI APA"
-        android:autofillHints="CARI CARI"
-        android:clickable="true"
-        />
-
-
-
-
-    -->
-
-
-
-    <android.support.design.widget.AppBarLayout
+<android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -49,10 +46,17 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/white"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            />
 
 
     </android.support.design.widget.AppBarLayout>
+
+    -->
+
+
+
+
 
     <include layout="@layout/content_main" />
 

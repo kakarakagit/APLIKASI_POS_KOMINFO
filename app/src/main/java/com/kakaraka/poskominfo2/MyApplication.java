@@ -11,6 +11,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+
+/*
+//-------------------------------//
+
+I DON'T KNOW WHAT THE FUCK IS THIS SHIT SUPPOSE TO DO
+IT JUST IS I KINDA KNOW BUT STILL THE FUCK
+
+//-------------------------------//
+ */
+
+
 public class MyApplication extends Application {
 
     public static final String TAG = MyApplication.class

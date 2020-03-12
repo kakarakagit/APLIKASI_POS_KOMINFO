@@ -44,23 +44,31 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
     private ContactsAdapter mAdapter;
     private SearchView searchView;
 
-    private EditText mySearchview;
+    private EditText myEditText;
 
     // url to fetch contacts json
     private static final String URL2 = "http://dev-blimana.com/profilingpos/api/";
+
+
+    public static final String EXTRA_NAMA = "nama";
+    public static final String EXTRA_NOIZIN = "noizin";
+    public static final String EXTRA_KODEPOS = "kodepos";
+    public static final String EXTRA_MASABERLAKU = "masaberlaku";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        //Toolbar toolbar = findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         // toolbar fancy stuff
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.toolbar_title);
+        //getSupportActionBar().setTitle(R.string.toolbar_title);
 
-        //mySearchview = findViewById(R.id.edit_text);
+        myEditText = findViewById(R.id.edit_text);
 
         recyclerView = findViewById(R.id.recycler_view);
         contactList = new ArrayList<>();
@@ -77,6 +85,24 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
 
         //fetchContacts();
         ParseJSON();
+
+        myEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                mAdapter.getFilter().filter(editable);
+                // THI IS FINALLY WORKING
+            }
+        });
 
     }
 
@@ -126,47 +152,11 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
         }
 
 
-        /*
-        private void fetchContacts() {
-        JsonArrayRequest request = new JsonArrayRequest(URL,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        if (response == null) {
-                            Toast.makeText(getApplicationContext(), "Couldn't fetch the contacts! Pleas try again.", Toast.LENGTH_LONG).show();
-                            return;
-                        }
 
-                        List<Contact> items = new Gson().fromJson(response.toString(), new TypeToken<List<Contact>>() {
-                        }.getType());
-
-                        // adding contacts to contacts list
-                        contactList.clear();
-                        contactList.addAll(items);
-
-                        // refreshing recycler view
-                        mAdapter.notifyDataSetChanged();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // error in getting json
-                Log.e(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        MyApplication.getInstance().addToRequestQueue(request);
-    }
-
-         */
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.action_search)
@@ -175,25 +165,12 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
                 .getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
 
-//test
 
+        return true;
 
-
-
-
-
-/*
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = findViewById(R.id.searchdong);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-
- */
-
-
-
-
-        //=============================================
+    //=====================================================================================
+    //========  ini search filter dengan action bar, sewaktu2 mungkin butuh??  ===========
+    //=====================================================================================
         // listening to search query text change
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -210,14 +187,14 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
                 return false;
             }
         });
-
-        //==========================================
-
-        return true;
+    //=====================================================================================
+    //========  ini search filter dengan action bar, sewaktu2 mungkin butuh??  ===========
+    //=====================================================================================
     }
 
+*/
 
-    //kmwqldnwndlkwndlkqnwldknqwlnd
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -232,7 +209,6 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
 
         return super.onOptionsItemSelected(item);
     }
-    //dlwdlqwndklwqndkkwqnkdweofqlkfnlkwenlqwd
 
 
 
@@ -261,6 +237,17 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
 
     @Override
     public void onContactSelected(Contact contact) {
-        Toast.makeText(getApplicationContext(), "Selected: " + contact.getName() + ", " + contact.getNoizin(), Toast.LENGTH_LONG).show();
+        Intent detailIntent = new Intent(this, DetailActivity.class);
+
+        detailIntent.putExtra(EXTRA_NAMA, contact.getName());
+        detailIntent.putExtra(EXTRA_NOIZIN, contact.getNoizin());
+        detailIntent.putExtra(EXTRA_KODEPOS, contact.getKodepos());
+        detailIntent.putExtra(EXTRA_MASABERLAKU, contact.getMasaberlaku());
+
+        //detailIntent.putExtra(EXTRA_GMAPS, contact.getGmaps());
+
+        startActivity(detailIntent);
+
+
     }
 }

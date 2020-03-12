@@ -36,11 +36,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
             //kodepos = view.findViewById(R.id.kodepos);
             //masaberlaku = view.findViewById(R.id.masaberlaku);
 
-            /*
-            phone = view.findViewById(R.id.phone);
-            thumbnail = view.findViewById(R.id.thumbnail);
-             */
-
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

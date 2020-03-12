@@ -11,6 +11,16 @@ import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 
+/*
+//-------------------------------//
+
+I DON'T KNOW WHAT THE FUCK IS THIS SHIT SUPPOSE TO DO
+IT JUST IS
+
+//-------------------------------//
+ */
+
+
 
 
 public class MyDividerItemDecoration  extends RecyclerView.ItemDecoration {
